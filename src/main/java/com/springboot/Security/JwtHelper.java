@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -57,13 +59,14 @@ public class JwtHelper {
 	}
 	
 	//generate token from user
-	public String generateToken(UserDetails userDetails) {
+	public String generateToken(Authentication authentication) {
 		Map<String, Object> claims = new HashMap<>();
-		return doGenerateToken(claims,userDetails.getUsername());
+		return doGenerateToken(claims,authentication);
 	}
 	
-	private String doGenerateToken(Map<String , Object> claims, String subject) {
-		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+	private String doGenerateToken(Map<String , Object> claims, Authentication authentication) {
+		String role = authentication.getAuthorities().stream().map(r -> r.getAuthority()).collect(Collectors.toSet()).iterator().next();
+		return Jwts.builder().claim("role",role).setSubject(authentication.getName()).setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
 				.signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
 	}

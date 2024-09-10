@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/manager")
+public class ManagerController {
 
-	@PreAuthorize("hasAuthority('USER')")
-	@GetMapping("/User")
-	public String home() {
-		return "Hlo User";
+	@PreAuthorize("hasAuthority('MANAGER')")
+	@GetMapping("/Manager")
+	private String manager() {
+		return "Hlo Manager";
 	}
 }

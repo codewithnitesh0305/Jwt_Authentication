@@ -23,6 +23,7 @@ import com.springboot.Security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
 	@Autowired
@@ -52,8 +53,8 @@ public class SecurityConfig {
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable())
-		.httpBasic(Customizer.withDefaults());
+		http.csrf(csrf -> csrf.disable());
+		http.cors(cors -> cors.disable());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/**").permitAll()
 				.anyRequest().authenticated())
 		.httpBasic(Customizer.withDefaults())

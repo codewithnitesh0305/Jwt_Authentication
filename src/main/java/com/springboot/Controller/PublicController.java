@@ -6,8 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,12 +45,16 @@ public class PublicController {
 	
     @PostMapping("/Login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
-        this.doAuthenticate(request.getEmail(), request.getPassword());
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
-        String token = this.helper.generateToken(userDetails);
+        //this.doAuthenticate(request.getEmail(), request.getPassword());
+    	Authentication authentication = manager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
+    	SecurityContextHolder.getContext().setAuthentication(authentication);
+    	
+        UserDetails userDetails = userDetailsService.loadUserByUsername(authentication.getName());
+        String token = this.helper.generateToken(authentication);
         JwtResponse response = JwtResponse.builder()
                 .token(token)
-                .username(userDetails.getUsername()).build();
+                .username(userDetails.getUsername())
+                .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
