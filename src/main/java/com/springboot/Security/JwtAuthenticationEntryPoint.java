@@ -16,11 +16,12 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint{
 
 	//It will show message if unauthorized person will try to access resource without authentication
 		@Override
-		public void commence(HttpServletRequest request, HttpServletResponse response,
-				AuthenticationException authException) throws IOException, ServletException {
+		public void commence(HttpServletRequest request, HttpServletResponse response,AuthenticationException authException) throws IOException, ServletException {
 			// TODO Auto-generated method stub
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			PrintWriter writer = response.getWriter();
 			writer.println("Access Denied !! "+ authException.getMessage());
+	        authException.getClass();
+
 		}
 }

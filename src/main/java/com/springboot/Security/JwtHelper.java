@@ -19,7 +19,7 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtHelper {
-	private static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+	private static final long JWT_TOKEN_VALIDITY = 20;
 	private String secret = "afafasfafafasfasfasfafacasdasfasxASFACASDFACASDFASFASFDAFASFASDAADSCSDFADCVSGCFVADXCcadwavfsfarvf";
 	
 	//retrieve username from jwt token
@@ -37,7 +37,7 @@ public class JwtHelper {
 		return claimsResolver.apply(claims);
 	}
 	
-	//for retrieveing any information from token we will nedd the secreat key
+	//for retrieving any information from token we will need the secret key
 	private Claims getAllClaimsFromToken(String token) {
 		return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())

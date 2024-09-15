@@ -31,9 +31,7 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter{
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//Authorization
-
         String requestHeader = request.getHeader("Authorization");
-        //Bearer 2352345235sdfrsfgsdfsdf
        System.out.println("Request handler "+requestHeader);
         String username = null;
         String token = null;
@@ -63,33 +61,20 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter{
         } else {
             System.out.println("Invalid Header Value !! ");
         }
-
-
-        //
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-
             //fetch user detail from username
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             Boolean validateToken = this.jwtHelper.validateToken(token, userDetails);
             if (validateToken) {
-
                 //set the authentication
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-
-
             } else {
                 System.out.println("Validation fails !!");
             }
-
-
         }
-
         filterChain.doFilter(request, response);
-		
 	}
-
 		
-	}
+}

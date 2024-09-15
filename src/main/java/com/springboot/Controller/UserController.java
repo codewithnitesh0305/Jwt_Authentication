@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-	@PreAuthorize("hasAuthority('USER')")
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping("/User")
 	public String home() {
 		return "Hlo User";

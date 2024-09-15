@@ -56,6 +56,9 @@ public class SecurityConfig {
 		http.csrf(csrf -> csrf.disable());
 		http.cors(cors -> cors.disable());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/**").permitAll()
+				.requestMatchers("/user/**").hasRole("USER")
+				.requestMatchers("/admin/**").hasRole("ADMIN")
+				.requestMatchers("/manager/**").hasRole("MANAGER")
 				.anyRequest().authenticated())
 		.httpBasic(Customizer.withDefaults())
 		.exceptionHandling(ex -> ex.authenticationEntryPoint(point))

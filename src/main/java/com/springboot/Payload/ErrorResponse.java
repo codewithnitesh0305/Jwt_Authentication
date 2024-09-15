@@ -1,7 +1,8 @@
 package com.springboot.Payload;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,12 +12,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
 @ToString
-public class JwtResponse {
+public class ErrorResponse {
 
-	private String token;
-	private String refreshToken;
-	private String username;
-	
+	private String message;
+    private int statusCode;
+    private LocalDateTime timestamp;
+    private String path;
 }

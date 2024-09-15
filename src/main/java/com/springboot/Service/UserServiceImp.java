@@ -20,7 +20,7 @@ public class UserServiceImp implements UserService{
 	public User saveUser(User user) {
 		// TODO Auto-generated method stub
 		user.setPassword(encoder.encode(user.getPassword()));
-		user.setRole("MANAGER");
+		user.setRole("ROLE_USER");
 		return userRepository.save(user);
 	}
 
