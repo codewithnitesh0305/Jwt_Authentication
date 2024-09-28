@@ -32,12 +32,16 @@ public class PublicController {
 
 	@Autowired
 	private UserService service;
+	
 	@Autowired
     private JwtHelper helper;
+	
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
 	@Autowired
 	private AuthenticationManager manager;
+	
 	@Autowired
 	private RefreshTokenService refershTokenService;
 	
@@ -49,7 +53,6 @@ public class PublicController {
 	
     @PostMapping("/Login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
-        //this.doAuthenticate(request.getEmail(), request.getPassword());
     	Authentication authentication = manager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
     	SecurityContextHolder.getContext().setAuthentication(authentication);
   
@@ -64,7 +67,7 @@ public class PublicController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
-    @PostMapping("/refresh")
+    @PostMapping("/Refresh")
     public ResponseEntity<?> refreshJwtToken(@RequestBody RefreshTokenRequest request) {
         System.out.println("Refresh token: " + request.getRefreshToken());
         
